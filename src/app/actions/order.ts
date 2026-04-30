@@ -8,7 +8,7 @@ export async function createOrder(data: {
   customerCity: string;
   address: string;
   totalAmount: number;
-  items: { id: string; quantity: number; price: number; title: string }[];
+  items: { id: string; quantity: number; price: number }[];
 }) {
   try {
     // 1. Insert Order
