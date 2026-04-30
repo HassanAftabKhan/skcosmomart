@@ -1,0 +1,33 @@
+.productPage {
+  padding-bottom: 5rem;
+}
+
+.relatedSection {
+  margin-top: 6rem;
+  border-top: 1px solid #eaeaea;
+  padding-top: 4rem;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 992px) {
+  .relatedGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .relatedGrid {
+    grid-template-columns: 1fr;
+  }
+}

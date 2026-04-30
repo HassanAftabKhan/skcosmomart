@@ -1,0 +1,122 @@
+.adminLayout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  font-family: var(--font-body); /* Override anything from frontend */
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #1a1c23;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+}
+
+.sidebarHeader {
+  padding: 2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebarHeader h2 {
+  color: var(--color-primary);
+  margin: 0;
+  font-size: 1.5rem;
+  font-family: var(--font-heading);
+}
+
+.nav {
+  flex-grow: 1;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.navLink {
+  padding: 1rem 2rem;
+  color: #a0a5b1;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navLink:hover {
+  background-color: rgba(255,255,255,0.05);
+  color: #fff;
+}
+
+.navLink.active {
+  background-color: var(--color-primary);
+  color: #fff;
+  border-left: 4px solid #fff;
+}
+
+.sidebarFooter {
+  padding: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.storeLink {
+  color: #a0a5b1;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.storeLink:hover {
+  color: #fff;
+}
+
+.logoutBtn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logoutBtn:hover {
+  background: #ff4757;
+  border-color: #ff4757;
+}
+
+.mainContent {
+  flex-grow: 1;
+  margin-left: 250px;
+  padding: 2rem;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .adminLayout {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  
+  .mainContent {
+    margin-left: 0;
+    padding: 1rem;
+  }
+  
+  .nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 1rem;
+  }
+}

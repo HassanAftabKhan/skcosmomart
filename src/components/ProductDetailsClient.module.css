@@ -1,0 +1,272 @@
+.productContainer {
+  padding-top: 4rem;
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+.imageSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mainImageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  background-color: #f5f5f5;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.mainImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.saleBadge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background-color: var(--color-primary);
+  color: white;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 2px;
+}
+
+.thumbnailList {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+}
+
+.thumbnail {
+  width: 80px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.thumbnail:hover {
+  opacity: 1;
+}
+
+.activeThumb {
+  opacity: 1;
+  border-color: var(--color-primary);
+}
+
+.infoSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.category {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: var(--color-text-light);
+  letter-spacing: 1.5px;
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.priceContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  font-size: 1.5rem;
+}
+
+.price {
+  font-weight: 600;
+}
+
+.salePrice {
+  font-weight: 600;
+  color: #d32f2f;
+}
+
+.originalPrice {
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+  text-decoration: line-through;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.quantitySelector {
+  display: flex;
+  align-items: center;
+  border: 1px solid #eaeaea;
+  border-radius: var(--radius-sm);
+}
+
+.quantitySelector button {
+  width: 40px;
+  height: 48px;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+}
+
+.quantitySelector span {
+  width: 40px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.addToCartBtn {
+  flex-grow: 1;
+  height: 48px;
+}
+
+.wishlistBtn {
+  width: 48px;
+  height: 48px;
+  border: 1px solid #eaeaea;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #999;
+  transition: all 0.2s ease;
+}
+
+.wishlistBtn.activeWishlist {
+  color: #ff4757;
+  border-color: #ff4757;
+}
+
+.actionButtonsCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.fullWidthBtn {
+  width: 100%;
+  height: 48px;
+}
+
+.whatsappBtn {
+  width: 100%;
+  height: 48px;
+  background-color: #25D366;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s;
+}
+
+.whatsappBtn:hover {
+  background-color: #1ebe5d;
+}
+
+.waIcon {
+  font-size: 1.2rem;
+}
+
+.trustHighlights {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid #eaeaea;
+  border-bottom: 1px solid #eaeaea;
+  margin-bottom: 2.5rem;
+}
+
+.highlight {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.icon {
+  font-size: 1.2rem;
+}
+
+.tabsContainer {
+  margin-top: 1rem;
+}
+
+.tabHeaders {
+  display: flex;
+  gap: 2rem;
+  border-bottom: 1px solid #eaeaea;
+  margin-bottom: 1.5rem;
+}
+
+.tabHeaders button {
+  padding-bottom: 0.8rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text-light);
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.tabHeaders button.activeTab {
+  color: var(--color-text);
+  border-bottom-color: var(--color-primary);
+}
+
+.tabContent p {
+  color: var(--color-text-light);
+  line-height: 1.8;
+  white-space: pre-line;
+}
+
+@media (max-width: 992px) {
+  .productGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .actions {
+    flex-wrap: wrap;
+  }
+  .quantitySelector {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .addToCartBtn {
+    width: calc(100% - 60px);
+  }
+}
