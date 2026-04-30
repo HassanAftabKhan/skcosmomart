@@ -47,6 +47,24 @@ export async function createOrder(data: {
       console.error(itemsError);
       throw new Error("Failed to create order items");
     }
+
+    // 3. Decrement Product Stock
+    for (const item of data.items) {
+      // Fetch current stock
+      const { data: product } = await supabase
+        .from('products')
+        .select('stock')
+        .eq('id', item.id)
+        .single();
+        
+      if (product) {
+        const newStock = Math.max(0, product.stock - item.quantity);
+        await supabase
+          .from('products')
+          .update({ stock: newStock })
+          .eq('id', item.id);
+      }
+    }
     
     return { success: true, orderId: order.id };
   } catch (error) {
