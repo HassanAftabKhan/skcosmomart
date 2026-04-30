@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import { supabase } from "@/lib/supabase";
 import styles from "./page.module.css";
 import ProductForm from "./ProductForm";
 import ProductList from "./ProductList";
@@ -6,9 +6,10 @@ import ProductList from "./ProductList";
 export const dynamic = 'force-dynamic';
 
 export default async function AdminProducts() {
-  const products = await prisma.product.findMany({
-    orderBy: { createdAt: 'desc' }
-  });
+  const { data: products } = await supabase
+    .from('products')
+    .select('*')
+    .order('createdAt', { ascending: false });
 
   return (
     <div className={styles.productsPage}>
@@ -29,8 +30,8 @@ export default async function AdminProducts() {
         
         <div className={styles.listColumn}>
           <div className={styles.card}>
-            <h2>Product Catalog ({products.length})</h2>
-            <ProductList products={products} />
+            <h2>Product Catalog ({products?.length || 0})</h2>
+            <ProductList products={products || []} />
           </div>
         </div>
       </div>

@@ -1,42 +1,38 @@
-import prisma from "@/lib/prisma";
+import { supabase } from "@/lib/supabase";
 import styles from "./page.module.css";
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminCustomers() {
-  const orders = await prisma.order.findMany({
-    select: {
-      customerName: true,
-      customerPhone: true,
-      customerCity: true,
-      totalAmount: true,
-      createdAt: true
-    },
-    orderBy: { createdAt: 'desc' }
-  });
+  const { data: orders } = await supabase
+    .from('orders')
+    .select('customerName, customerPhone, customerCity, totalAmount, createdAt')
+    .order('createdAt', { ascending: false });
 
   // Group by phone number
   const customersMap = new Map();
   
-  orders.forEach(order => {
-    if (!customersMap.has(order.customerPhone)) {
-      customersMap.set(order.customerPhone, {
-        name: order.customerName,
-        phone: order.customerPhone,
-        city: order.customerCity,
-        totalOrders: 1,
-        totalSpent: order.totalAmount,
-        lastOrder: order.createdAt
-      });
-    } else {
-      const c = customersMap.get(order.customerPhone);
-      c.totalOrders += 1;
-      c.totalSpent += order.totalAmount;
-      if (order.createdAt > c.lastOrder) {
-        c.lastOrder = order.createdAt;
+  if (orders) {
+    orders.forEach((order: any) => {
+      if (!customersMap.has(order.customerPhone)) {
+        customersMap.set(order.customerPhone, {
+          name: order.customerName,
+          phone: order.customerPhone,
+          city: order.customerCity,
+          totalOrders: 1,
+          totalSpent: order.totalAmount,
+          lastOrder: order.createdAt
+        });
+      } else {
+        const c = customersMap.get(order.customerPhone);
+        c.totalOrders += 1;
+        c.totalSpent += order.totalAmount;
+        if (order.createdAt > c.lastOrder) {
+          c.lastOrder = order.createdAt;
+        }
       }
-    }
-  });
+    });
+  }
 
   const customers = Array.from(customersMap.values());
 

@@ -1,20 +1,20 @@
-import prisma from "@/lib/prisma";
+import { supabase } from "@/lib/supabase";
 import styles from "./page.module.css";
 import OrderStatusSelect from "./OrderStatusSelect";
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminOrders() {
-  const orders = await prisma.order.findMany({
-    include: {
-      orderItems: {
-        include: {
-          product: true
-        }
-      }
-    },
-    orderBy: { createdAt: 'desc' }
-  });
+  const { data: orders } = await supabase
+    .from('orders')
+    .select(`
+      *,
+      orderItems (
+        *,
+        product:products (*)
+      )
+    `)
+    .order('createdAt', { ascending: false });
 
   return (
     <div className={styles.ordersPage}>
@@ -36,10 +36,10 @@ export default async function AdminOrders() {
             </tr>
           </thead>
           <tbody>
-            {orders.map(order => (
+            {orders && orders.map((order: any) => (
               <tr key={order.id}>
                 <td>
-                  <strong>#{order.id.slice(-6).toUpperCase()}</strong>
+                  <strong>#{order.id.toString().slice(-6).toUpperCase()}</strong>
                 </td>
                 <td>
                   <div className={styles.customerInfo}>
@@ -50,9 +50,9 @@ export default async function AdminOrders() {
                 </td>
                 <td>
                   <ul className={styles.itemList}>
-                    {order.orderItems.map(item => (
+                    {order.orderItems && order.orderItems.map((item: any) => (
                       <li key={item.id}>
-                        {item.quantity}x {item.product.title}
+                        {item.quantity}x {item.product?.title || 'Unknown Product'}
                       </li>
                     ))}
                   </ul>
@@ -64,7 +64,7 @@ export default async function AdminOrders() {
                 <td>{new Date(order.createdAt).toLocaleDateString()}</td>
               </tr>
             ))}
-            {orders.length === 0 && (
+            {(!orders || orders.length === 0) && (
               <tr>
                 <td colSpan={6} className={styles.emptyState}>No orders found.</td>
               </tr>

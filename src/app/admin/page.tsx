@@ -1,24 +1,23 @@
-import prisma from "@/lib/prisma";
+import { supabase } from "@/lib/supabase";
 import styles from "./page.module.css";
 import Link from "next/link";
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboard() {
-  const [totalOrders, totalRevenue, totalProducts, recentOrders] = await Promise.all([
-    prisma.order.count(),
-    prisma.order.aggregate({
-      _sum: { totalAmount: true },
-      where: { status: { not: 'CANCELLED' } }
-    }),
-    prisma.product.count(),
-    prisma.order.findMany({
-      take: 5,
-      orderBy: { createdAt: 'desc' }
-    })
+  const [
+    { count: totalOrders },
+    { data: revenueData },
+    { count: totalProducts },
+    { data: recentOrders }
+  ] = await Promise.all([
+    supabase.from('orders').select('*', { count: 'exact', head: true }),
+    supabase.from('orders').select('totalAmount').neq('status', 'CANCELLED'),
+    supabase.from('products').select('*', { count: 'exact', head: true }),
+    supabase.from('orders').select('*').order('createdAt', { ascending: false }).limit(5)
   ]);
 
-  const revenue = totalRevenue._sum.totalAmount || 0;
+  const revenue = revenueData ? revenueData.reduce((sum, order) => sum + (order.totalAmount || 0), 0) : 0;
 
   return (
     <div className={styles.dashboard}>
@@ -34,11 +33,11 @@ export default async function AdminDashboard() {
         </div>
         <div className={styles.statCard}>
           <h3>Total Orders</h3>
-          <p className={styles.statValue}>{totalOrders}</p>
+          <p className={styles.statValue}>{totalOrders || 0}</p>
         </div>
         <div className={styles.statCard}>
           <h3>Products</h3>
-          <p className={styles.statValue}>{totalProducts}</p>
+          <p className={styles.statValue}>{totalProducts || 0}</p>
         </div>
         <div className={styles.statCard}>
           <h3>Conversion Rate</h3>
@@ -52,7 +51,7 @@ export default async function AdminDashboard() {
           <Link href="/admin/orders" className={styles.viewAll}>View All Orders</Link>
         </div>
         
-        {recentOrders.length === 0 ? (
+        {!recentOrders || recentOrders.length === 0 ? (
           <div className={styles.emptyState}>No orders yet.</div>
         ) : (
           <div className={styles.tableWrapper}>
@@ -70,7 +69,7 @@ export default async function AdminDashboard() {
               <tbody>
                 {recentOrders.map(order => (
                   <tr key={order.id}>
-                    <td>#{order.id.slice(-6).toUpperCase()}</td>
+                    <td>#{order.id.toString().slice(-6).toUpperCase()}</td>
                     <td>{order.customerName}</td>
                     <td>{order.customerCity}</td>
                     <td>Rs. {order.totalAmount}</td>

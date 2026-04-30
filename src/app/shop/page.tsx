@@ -1,84 +1,61 @@
-import prisma from "@/lib/prisma";
+import { supabase } from "@/lib/supabase";
 import ProductCard from "@/components/ProductCard";
 import styles from "./page.module.css";
+import Link from "next/link";
 
-// This is a Server Component, so we can fetch directly from the database
 export const dynamic = 'force-dynamic';
 
-export default async function ShopPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}) {
-  const params = await searchParams;
-  const category = params.category as string | undefined;
-  const search = params.search as string | undefined;
+export default async function ShopPage({ searchParams }: { searchParams: Promise<{ category?: string, q?: string }> }) {
+  const { category, q } = await searchParams;
 
-  let whereClause = {};
-  
+  let query = supabase.from('products').select('*');
+
   if (category && category !== 'Best-Sellers') {
-    whereClause = { ...whereClause, category };
+    query = query.eq('category', category);
   }
   
-  if (search) {
-    whereClause = {
-      ...whereClause,
-      title: {
-        contains: search,
-      }
-    };
+  if (q) {
+    query = query.ilike('title', `%${q}%`);
   }
 
-  const products = await prisma.product.findMany({
-    where: whereClause,
-    orderBy: { createdAt: 'desc' }
-  });
+  const { data: products, error } = await query.order('createdAt', { ascending: false });
 
   return (
     <div className={styles.shopContainer}>
-      <div className={styles.shopHeader}>
-        <div className="container">
-          <h1>{category ? category.replace('-', ' ') : search ? `Search Results for "${search}"` : "All Products"}</h1>
-          <p>Discover our curated collection of premium beauty essentials.</p>
-        </div>
-      </div>
-      
-      <div className={`container ${styles.shopLayout}`}>
+      <div className={`container ${styles.layout}`}>
+        
+        {/* Sidebar Filters */}
         <aside className={styles.sidebar}>
           <h3>Categories</h3>
-          <ul className={styles.categoryList}>
-            <li><a href="/shop" className={!category ? styles.active : ''}>All Products</a></li>
-            <li><a href="/shop?category=Skincare" className={category === 'Skincare' ? styles.active : ''}>Skincare</a></li>
-            <li><a href="/shop?category=Makeup" className={category === 'Makeup' ? styles.active : ''}>Makeup</a></li>
-            <li><a href="/shop?category=Haircare" className={category === 'Haircare' ? styles.active : ''}>Haircare</a></li>
-            <li><a href="/shop?category=Best-Sellers" className={category === 'Best-Sellers' ? styles.active : ''}>Best Sellers</a></li>
+          <ul className={styles.filterList}>
+            <li><Link href="/shop" className={!category ? styles.active : ''}>All Products</Link></li>
+            <li><Link href="/shop?category=Skincare" className={category === 'Skincare' ? styles.active : ''}>Skincare</Link></li>
+            <li><Link href="/shop?category=Makeup" className={category === 'Makeup' ? styles.active : ''}>Makeup</Link></li>
+            <li><Link href="/shop?category=Haircare" className={category === 'Haircare' ? styles.active : ''}>Haircare</Link></li>
           </ul>
         </aside>
-        
-        <main className={styles.mainContent}>
-          <div className={styles.controls}>
-            <span>Showing {products.length} products</span>
-            <select className={styles.sortSelect} defaultValue="newest">
-              <option value="newest">Newest Arrivals</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-            </select>
+
+        {/* Main Content */}
+        <div className={styles.mainContent}>
+          <div className={styles.header}>
+            <h1>{category ? category : q ? `Search Results for "${q}"` : 'All Products'}</h1>
+            <p>Showing {products?.length || 0} result{products?.length !== 1 ? 's' : ''}</p>
           </div>
-          
-          {products.length > 0 ? (
-            <div className={styles.productGrid}>
-              {products.map(product => (
+
+          <div className={styles.productGrid}>
+            {products && products.length > 0 ? (
+              products.map(product => (
                 <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          ) : (
-            <div className={styles.emptyState}>
-              <h2>No products found</h2>
-              <p>Try adjusting your search or filter criteria.</p>
-              <a href="/shop" className="btn btn-primary" style={{marginTop: '1rem'}}>Clear Filters</a>
-            </div>
-          )}
-        </main>
+              ))
+            ) : (
+              <div className={styles.emptyState}>
+                <p>No products found matching your criteria.</p>
+                <Link href="/shop" className="btn btn-outline">Clear Filters</Link>
+              </div>
+            )}
+          </div>
+        </div>
+        
       </div>
     </div>
   );

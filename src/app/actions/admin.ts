@@ -1,13 +1,11 @@
 "use server";
 
-import prisma from "@/lib/prisma";
+import { supabase } from "@/lib/supabase";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 export async function loginAdmin(password: string) {
-  // Simple hardcoded password for now: "admin123"
-  // In a real app, hash and check against User table
   if (password === "admin123") {
     (await cookies()).set("admin_token", "authenticated", { 
       httpOnly: true, 
@@ -26,10 +24,13 @@ export async function logoutAdmin() {
 
 export async function updateOrderStatus(orderId: string, status: string) {
   try {
-    await prisma.order.update({
-      where: { id: orderId },
-      data: { status }
-    });
+    const { error } = await supabase
+      .from('orders')
+      .update({ status })
+      .eq('id', orderId);
+
+    if (error) throw error;
+
     revalidatePath("/admin/orders");
     return { success: true };
   } catch (error) {
@@ -39,9 +40,13 @@ export async function updateOrderStatus(orderId: string, status: string) {
 
 export async function deleteProduct(productId: string) {
   try {
-    await prisma.product.delete({
-      where: { id: productId }
-    });
+    const { error } = await supabase
+      .from('products')
+      .delete()
+      .eq('id', productId);
+
+    if (error) throw error;
+
     revalidatePath("/admin/products");
     return { success: true };
   } catch (error) {
@@ -49,42 +54,34 @@ export async function deleteProduct(productId: string) {
   }
 }
 
-// In a real app with file uploads, we'd handle FormData.
-// For this MVP, we will accept a base64 string or an array of image URLs.
 export async function saveProduct(data: any) {
   try {
+    const productData = {
+      title: data.title,
+      description: data.description,
+      price: parseFloat(data.price),
+      salePrice: data.salePrice ? parseFloat(data.salePrice) : null,
+      stock: parseInt(data.stock),
+      category: data.category,
+      images: JSON.stringify(data.images),
+      benefits: data.benefits,
+      ingredients: data.ingredients,
+      howToUse: data.howToUse,
+    };
+
     if (data.id) {
-      await prisma.product.update({
-        where: { id: data.id },
-        data: {
-          title: data.title,
-          description: data.description,
-          price: parseFloat(data.price),
-          salePrice: data.salePrice ? parseFloat(data.salePrice) : null,
-          stock: parseInt(data.stock),
-          category: data.category,
-          images: JSON.stringify(data.images),
-          benefits: data.benefits,
-          ingredients: data.ingredients,
-          howToUse: data.howToUse,
-        }
-      });
+      const { error } = await supabase
+        .from('products')
+        .update(productData)
+        .eq('id', data.id);
+      if (error) throw error;
     } else {
-      await prisma.product.create({
-        data: {
-          title: data.title,
-          description: data.description,
-          price: parseFloat(data.price),
-          salePrice: data.salePrice ? parseFloat(data.salePrice) : null,
-          stock: parseInt(data.stock),
-          category: data.category,
-          images: JSON.stringify(data.images),
-          benefits: data.benefits,
-          ingredients: data.ingredients,
-          howToUse: data.howToUse,
-        }
-      });
+      const { error } = await supabase
+        .from('products')
+        .insert(productData);
+      if (error) throw error;
     }
+
     revalidatePath("/admin/products");
     revalidatePath("/shop");
     return { success: true };
