@@ -7,18 +7,27 @@ export default function Home() {
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={`container ${styles.heroContainer}`}>
-          <div className={`${styles.heroContent} animate-fade-in`}>
-            <span className="accent-text">Glow effortlessly</span>
-            <h1>Radiate Your True Beauty</h1>
-            <p>Premium skincare and makeup tailored for the modern Pakistani woman. Experience luxury with every drop.</p>
-            <div className={styles.heroActions}>
-              <Link href="/shop" className="btn btn-primary">Shop Collection</Link>
-              <Link href="/shop?category=Best-Sellers" className="btn btn-secondary">Best Sellers</Link>
+          <div className={styles.heroSplit}>
+            <div className={`${styles.heroContent} animate-fade-in`}>
+              <span className="accent-text">Glow effortlessly</span>
+              <h1>Radiate Your True Beauty</h1>
+              <p>Premium skincare and makeup tailored for the modern Pakistani woman. Experience luxury with every drop.</p>
+              <div className={styles.heroActions}>
+                <Link href="/shop" className="btn btn-primary">Shop Collection</Link>
+                <Link href="/shop?category=Best-Sellers" className="btn btn-secondary">Best Sellers</Link>
+              </div>
+              <div className={styles.trustBadges}>
+                <span>✨ 100% Authentic</span>
+                <span>💝 Cash on Delivery</span>
+                <span>🚚 Fast Shipping</span>
+              </div>
             </div>
-            <div className={styles.trustBadges}>
-              <span>✨ 100% Authentic</span>
-              <span>💝 Cash on Delivery</span>
-              <span>🚚 Fast Shipping</span>
+            
+            <div className={`${styles.heroImageWrapper} animate-fade-in`}>
+              <div className={styles.heroImageContainer}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/images/hero.png" alt="Luxury Cosmetics" className={styles.heroImage} />
+              </div>
             </div>
           </div>
         </div>
@@ -33,16 +42,16 @@ export default function Home() {
           </div>
           <div className={styles.categoryGrid}>
             <Link href="/shop?category=Skincare" className={styles.categoryCard}>
-              <div className={styles.categoryImgPlaceholder} style={{backgroundColor: '#F9E4E5', backgroundImage: 'url(https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=800&auto=format&fit=crop)', backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
+              <div className={styles.categoryImgPlaceholder} style={{backgroundImage: 'url(/images/skincare.png)', backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
               <h3>Skincare</h3>
             </Link>
             <Link href="/shop?category=Makeup" className={styles.categoryCard}>
-              <div className={styles.categoryImgPlaceholder} style={{backgroundColor: '#EADFD7', backgroundImage: 'url(https://images.unsplash.com/photo-1596462502278-27bf85033e5a?q=80&w=800&auto=format&fit=crop)', backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
+              <div className={styles.categoryImgPlaceholder} style={{backgroundImage: 'url(/images/makeup.png)', backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
               <h3>Makeup</h3>
             </Link>
-            <Link href="/shop?category=Haircare" className={styles.categoryCard}>
-              <div className={styles.categoryImgPlaceholder} style={{backgroundColor: '#F3E5D8', backgroundImage: 'url(https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=800&auto=format&fit=crop)', backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
-              <h3>Haircare</h3>
+            <Link href="/shop?category=Fragrance" className={styles.categoryCard}>
+              <div className={styles.categoryImgPlaceholder} style={{backgroundImage: 'url(/images/fragrance.png)', backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
+              <h3>Fragrances</h3>
             </Link>
           </div>
         </div>
