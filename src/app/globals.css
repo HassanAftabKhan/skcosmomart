@@ -1,29 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&family=Alex+Brush&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Jost:wght@300;400;500;600&family=Great+Vibes&display=swap');
 
 :root {
-  --color-primary: #FF4D6D; /* Vibrant Rose Pink */
-  --color-primary-hover: #C9184A; /* Deep Pink */
-  --color-secondary: #FFF0F3; /* Soft Blush */
-  --color-background: #FFFFFF; 
-  --color-text: #2B2D42; /* Deep Navy/Charcoal */
-  --color-text-light: #8D99AE;
+  --color-primary: #E2A3A1; /* Soft Dusty Rose */
+  --color-primary-hover: #C98B89; /* Deeper Rose */
+  --color-secondary: #F5EAE9; /* Very Soft Blush */
+  --color-background: #FCFBFB; /* Alabaster White */
+  --color-text: #2D2B2B; /* Rich Charcoal */
+  --color-text-light: #8A8585; /* Soft Grey */
   --color-white: #FFFFFF;
-  --color-gold: #FFB5A7; /* Soft Peach/Gold */
+  --color-accent: #D47A7A; /* Muted Berry for highlights */
   
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Outfit', sans-serif;
-  --font-accent: 'Alex Brush', cursive;
+  --font-heading: 'Bodoni Moda', serif;
+  --font-body: 'Jost', sans-serif;
+  --font-accent: 'Great Vibes', cursive;
   
-  --shadow-sm: 0 4px 15px rgba(255, 77, 109, 0.08);
-  --shadow-md: 0 10px 30px rgba(255, 77, 109, 0.12);
-  --shadow-lg: 0 20px 40px rgba(255, 77, 109, 0.15);
+  --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 10px 35px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.08);
   
-  --radius-sm: 12px;
-  --radius-md: 24px;
-  --radius-lg: 32px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
   --radius-pill: 50px;
   
-  --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 * {
@@ -38,22 +38,25 @@ body {
   color: var(--color-text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  background-image: radial-gradient(circle at top left, #FFF0F3 0%, #FFFFFF 40%);
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  font-weight: 600;
+  font-weight: 500;
   color: var(--color-text);
   margin-bottom: 1rem;
+  letter-spacing: -0.02em;
 }
 
 .accent-text {
   font-family: var(--font-accent);
-  color: var(--color-primary);
-  font-size: 2.5rem;
+  color: var(--color-accent);
+  font-size: 3.5rem;
   font-weight: 400;
-  line-height: 1;
+  line-height: 0.8;
+  display: block;
+  margin-bottom: -10px;
+  transform: rotate(-3deg);
 }
 
 a {
@@ -71,9 +74,9 @@ button {
 
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 24px;
 }
 
 /* Base Utility Classes */
@@ -81,48 +84,47 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 32px;
-  border-radius: var(--radius-pill);
-  font-weight: 500;
+  padding: 16px 36px;
+  border-radius: var(--radius-sm);
+  font-weight: 400;
   transition: var(--transition);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-family: var(--font-body);
-  letter-spacing: 0.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #FF4D6D 0%, #FF758F 100%);
+  background-color: var(--color-text);
   color: var(--color-white);
-  box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #C9184A 0%, #FF4D6D 100%);
+  background-color: var(--color-primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 77, 109, 0.4);
+  box-shadow: var(--shadow-md);
 }
 
 .btn-secondary {
   background-color: var(--color-secondary);
-  color: var(--color-primary);
+  color: var(--color-text);
 }
 
 .btn-secondary:hover {
-  background-color: #FFE3E8;
+  background-color: #EADCDA;
   transform: translateY(-2px);
 }
 
 .btn-outline {
   background-color: transparent;
-  border: 2px solid var(--color-primary);
-  color: var(--color-primary);
+  border: 1px solid var(--color-text);
+  color: var(--color-text);
 }
 
 .btn-outline:hover {
-  background-color: var(--color-primary);
+  background-color: var(--color-text);
   color: var(--color-white);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
 }
 
 /* Animations */
@@ -132,5 +134,5 @@ button {
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeIn 1s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 }
