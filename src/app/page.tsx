@@ -38,20 +38,31 @@ export default function Home() {
         <div className="container">
           <div className={styles.sectionHeader}>
             <h2>Shop by Category</h2>
-            <Link href="/shop" className={styles.viewAll}>View All</Link>
           </div>
           <div className={styles.categoryGrid}>
             <Link href="/shop?category=Skincare" className={styles.categoryCard}>
-              <div className={styles.categoryImgPlaceholder} style={{backgroundImage: 'url(/images/skincare.png)', backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
-              <h3>Skincare</h3>
+              <div className={styles.categoryImgPlaceholder} style={{backgroundImage: 'url(/images/skincare.png)'}}></div>
+              <div className={styles.categoryOverlay}>
+                <h3>Skincare</h3>
+              </div>
             </Link>
             <Link href="/shop?category=Makeup" className={styles.categoryCard}>
-              <div className={styles.categoryImgPlaceholder} style={{backgroundImage: 'url(/images/makeup.png)', backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
-              <h3>Makeup</h3>
+              <div className={styles.categoryImgPlaceholder} style={{backgroundImage: 'url(/images/makeup.png)'}}></div>
+              <div className={styles.categoryOverlay}>
+                <h3>Makeup</h3>
+              </div>
             </Link>
             <Link href="/shop?category=Fragrance" className={styles.categoryCard}>
-              <div className={styles.categoryImgPlaceholder} style={{backgroundImage: 'url(/images/fragrance.png)', backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
-              <h3>Fragrances</h3>
+              <div className={styles.categoryImgPlaceholder} style={{backgroundImage: 'url(/images/fragrance.png)'}}></div>
+              <div className={styles.categoryOverlay}>
+                <h3>Fragrances</h3>
+              </div>
+            </Link>
+            <Link href="/shop" className={styles.categoryCard}>
+              <div className={styles.categoryImgPlaceholder} style={{backgroundImage: 'url(/images/view-all.png)'}}></div>
+              <div className={styles.categoryOverlay}>
+                <h3>View All</h3>
+              </div>
             </Link>
           </div>
         </div>
