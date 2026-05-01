@@ -33,18 +33,17 @@
   position: relative;
   z-index: 2;
   width: 100%;
-}
-
 .heroContent {
-  max-width: 600px;
-  padding: 4rem 0;
+  max-width: 100%;
+  padding: 2rem 0;
+  z-index: 5;
 }
 
 .heroSplit {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: 4rem;
+  gap: 3rem;
 }
 
 .heroImageWrapper {
@@ -58,9 +57,9 @@
 .heroImageContainer {
   position: relative;
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   aspect-ratio: 4/5;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
 }
@@ -69,7 +68,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: linear-gradient(to top, rgba(255, 51, 102, 0.1), transparent);
   z-index: 2;
   pointer-events: none;
 }
@@ -82,40 +81,38 @@
 }
 
 .heroImageContainer:hover .heroImage {
-  transform: scale(1.03);
+  transform: scale(1.05);
 }
 
 .heroContent h1 {
-  font-size: 5.5rem;
-  line-height: 1;
+  font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+  line-height: 1.1;
   margin-bottom: 1.5rem;
   color: var(--color-text);
-  font-weight: 400;
 }
 
 .heroContent p {
-  font-size: 1.15rem;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
   color: var(--color-text-light);
-  margin-bottom: 3rem;
-  line-height: 1.8;
-  max-width: 500px;
-  font-weight: 300;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+  max-width: 90%;
 }
 
 .heroActions {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 }
 
 .trustBadges {
   display: flex;
-  gap: 2rem;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--color-text-light);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary);
 }
 
 .trustBadges span {
