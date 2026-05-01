@@ -59,16 +59,16 @@
   width: 100%;
   max-width: 600px;
   aspect-ratio: 4/5;
-  border-radius: var(--radius-md);
+  border-radius: 0px;
   overflow: hidden;
-  box-shadow: var(--shadow-lg);
+  box-shadow: none;
 }
 
 .heroImageContainer::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(255, 51, 102, 0.1), transparent);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.05), transparent);
   z-index: 2;
   pointer-events: none;
 }
@@ -184,12 +184,13 @@
 }
 
 .categoryCard h3 {
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   text-align: center;
   color: var(--color-text);
   font-family: var(--font-heading);
-  font-weight: 400;
-  font-style: italic;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
   transition: color 0.3s ease;
 }
 
